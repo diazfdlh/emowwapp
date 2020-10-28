@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 17, 2020 at 01:51 AM
+-- Generation Time: Oct 28, 2020 at 07:58 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
 
@@ -118,8 +118,7 @@ INSERT INTO `biaya_ext` (`id_be`, `id_b`, `nama_b`, `jenis`, `nominal`) VALUES
 (3, 2, 'Insulasi2', 'debit', 2000),
 (5, 2, 'Insulasi3', 'kredit', 4000),
 (7, 4, 'hehe', 'kredit', 1000),
-(8, 5, 'Biaya1', 'kredit', 10000),
-(9, 5, 'Biaya2', 'debit', 5000);
+(8, 5, 'Biaya1', 'kredit', 10000);
 
 -- --------------------------------------------------------
 
@@ -230,8 +229,8 @@ CREATE TABLE `peternak` (
 --
 
 INSERT INTO `peternak` (`id_pt`, `id_user`, `id_kop`, `kop_stat`, `ttl`, `pend_pt`, `thn_mulai`, `last_seen`) VALUES
-(1, 6, 1, 1, '1998-09-12', 'Institut Pertanian Bogor', 2012, '2020-09-12 02:15:50'),
-(2, 8, 1, 1, '2020-07-14', 'Sekolah Vokasi IPB', 2010, '2020-09-12 02:15:50');
+(1, 6, 1, 1, '1998-09-12', 'Institut Pertanian Bogor', 2012, '2020-10-10 09:17:14'),
+(2, 8, 1, 1, '2020-07-14', 'Sekolah Vokasi IPB', 2010, '2020-10-10 09:17:14');
 
 -- --------------------------------------------------------
 
@@ -311,7 +310,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `uname`, `pass`, `email`, `nama`, `dp`, `role`, `status`, `created`) VALUES
-(1, 'diazfdlh', '827ccb0eea8a706c4c34a16891f84e7b', 'yazfdlh@gmail.com', 'Diaz Fadilah', '1', 'admin', 1, '2020-06-06 19:29:18'),
+(1, 'admin', '827ccb0eea8a706c4c34a16891f84e7b', 'yazfdlh@gmail.com', 'Diaz Fadilah', '1', 'admin', 1, '2020-06-06 19:29:18'),
 (6, 'peternak1', '827ccb0eea8a706c4c34a16891f84e7b', 'test1@mail.com', 'Saya Peternak', '6', 'peternak', 1, '2020-06-07 02:40:31'),
 (7, 'penyuluh1', '827ccb0eea8a706c4c34a16891f84e7b', 'penyuluh@mail.com', 'Penyuluh S.Pt', '7', 'ahli', 1, '2020-06-08 14:14:43'),
 (8, 'peternak2', '827ccb0eea8a706c4c34a16891f84e7b', 'test@mail.com', 'Bambang', '8', 'peternak', 1, '2020-06-08 19:36:00'),
@@ -435,13 +434,13 @@ ALTER TABLE `biaya`
 -- AUTO_INCREMENT for table `biaya_ext`
 --
 ALTER TABLE `biaya_ext`
-  MODIFY `id_be` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_be` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `deauthor`
@@ -453,7 +452,7 @@ ALTER TABLE `deauthor`
 -- AUTO_INCREMENT for table `isichat`
 --
 ALTER TABLE `isichat`
-  MODIFY `id_isichat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `id_isichat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `koperasi`
