@@ -1,0 +1,9 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+RewriteRule ^user/(\d+)$ ./peternak/?un=$1 [NS,L,DPI]
+
+#Copyright Diaz Fadilah

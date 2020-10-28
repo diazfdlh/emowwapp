@@ -1,0 +1,10 @@
+<?php 
+    require_once('../config.php');
+    include(INC_DIR.'header.php');
+    include(INC_DIR.'nav.php');
+    if(isset($_GET['un'])){
+        include('./inc.display.php');
+    }else{
+        include('./inc.list.php');
+    }
+?>
