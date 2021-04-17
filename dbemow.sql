@@ -6,6 +6,7 @@
 -- Generation Time: Oct 28, 2020 at 07:58 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
+--test
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
