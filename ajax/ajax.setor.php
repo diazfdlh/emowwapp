@@ -22,10 +22,10 @@
             <div id="setor-row-<?php echo $r['id_user'];?>" class="row list m-1" style="border: 1pt solid #dcdcdc;">
                 <div class="col-2"><?php echo $tgl?></div>
                 <div class="col-1"><?php echo $r['bagian']?></div>
-                <div class="col-3"><?php echo $r['nama']?></div>
+                <div class="col-2"><?php echo $r['nama']?></div>
                 <div class="col-1"><?php echo $r['jumlah']?></div>
-                <div class="col-1"><?php echo 'Rp.'.$r['biaya_susu']?></div>
-                <div class="col-2"><?php echo 'Rp.'.$r['total'];?></div>    
+                <div class="col-2" style="text-align: right;"><?php echo 'Rp '.number_format($r['biaya_susu'],0,"",".")?></div>
+                <div class="col-2" style="text-align: right;"><?php echo 'Rp '.number_format($r['total'],0,"",".");?></div>    
                 <div class="col-2">
                     <i class="fas fa-pencil-alt" style="cursor: pointer;color:#019961;" onclick="edit(<?php echo $r['id_s'];?>)"><span style="font-family:Arial, Helvetica, sans-serif;color:#019961;font-size:8pt;"> Edit</span></i>
                     <i class="fas fa-trash" style="cursor: pointer;color:#d44950;" onclick="del(<?php echo $r['id_s'];?>)"><span style="font-family:Arial, Helvetica, sans-serif;color:#d44950;font-size:8pt;"> Delete</span></i>
@@ -113,11 +113,17 @@
                 </div>
                 <div class="row mt-2 mb-2">
                     <div class="col-5">Jumlah Susu</div>
-                    <div class="col-7"><input required type="number" name="jum" class="form-control" placeholder="Masukan Jumlah Susu"></div>
+                    <div class="col-7"><input required type="number" step="0.01" name="jum" class="form-control" placeholder="Masukan Jumlah Susu"></div>
                 </div>
                 <div class="row mt-2 mb-2">
                     <div class="col-5">Harga per susu</div>
-                    <div class="col-7"><input required type="number" name="nom" class="form-control" placeholder="Masukan Biaya Susu"></div>
+                    <div class="col-7">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">Rp</div>
+                            </div>
+                            <input required type="number" name="nom" class="form-control" placeholder="Masukan Biaya Susu"></div>
+                        </div>
                 </div>
                 <input type="hidden" name="mode" value="initAdd">
                 <input type="number" hidden name="n" id="n" value="0">
@@ -207,11 +213,18 @@
                 </div>
                 <div class="row mt-2 mb-2">
                     <div class="col-5">Jumlah Susu</div>
-                    <div class="col-7"><input value="<?php echo $row['jumlah'];?>" required type="number" name="jumlah" class="form-control" placeholder="Masukan Jumlah Susu"></div>
+                    <div class="col-7"><input value="<?php echo $row['jumlah'];?>" required type="number" step="0.01" name="jumlah" class="form-control" placeholder="Masukan Jumlah Susu"></div>
                 </div>
                 <div class="row mt-2 mb-2">
                     <div class="col-5">Harga per susu</div>
-                    <div class="col-7"><input value="<?php echo $row['biaya_susu'];?>" required type="number" name="harga" class="form-control" placeholder="Masukan Biaya Susu"></div>
+                    <div class="col-7">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">Rp</div>
+                            </div>
+                            <input value="<?php echo $row['biaya_susu'];?>" required type="number" name="harga" class="form-control" placeholder="Masukan Biaya Susu">
+                        </div>
+                    </div>
                 </div>
                 <input type="hidden" name="mode" value="initEdit">
                 <input type="hidden" name="id" value="<?php echo $id_s;?>">

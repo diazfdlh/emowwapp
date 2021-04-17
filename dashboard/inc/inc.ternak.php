@@ -15,12 +15,10 @@
 <input id="ternak-currPage" type="text" value="1" hidden>
 <div class="ternak-msg"></div>
 <div class="row list header m-1">
-    <div class="col-2">Nomor Ternak</div>
     <div class="col-2">Bulan</div>
-    <div class="col-3">Tahun</div>
-    <div class="col-2">Dara</div>
-    <div class="col-2">Pedet</div>
-    <div class="col-1"></div>
+    <div class="col-2">Tahun</div>
+    <div class="col-6">Detail</div>
+    <div class="col-2"></div>
 </div>
 
 <div id="body-ternak" style="min-height: 400px;">

@@ -17,10 +17,10 @@
 <div class="row list header m-1">
     <div class="col-2">Tgl</div>
     <div class="col-1">Bagian</div>
-    <div class="col-3">Peternak</div>
+    <div class="col-2">Peternak</div>
     <div class="col-1">Jumlah</div>
-    <div class="col-1">Harga</div>
-    <div class="col-2">Total</div>
+    <div class="col-2" style="text-align: right;">Harga</div>
+    <div class="col-2" style="text-align: right;">Total</div>
     <div class="col-2"></div>
 </div>
 

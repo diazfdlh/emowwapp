@@ -5,12 +5,12 @@
         color:#fff !important;
     }
 </style>
-<div class="container" style="max-width: 1200px;">
+<div class="container" style="max-width: 1500px;">
     <div class="card card-nb p-3" style="text-align: center;">
     <a href="<?php echo BASE_URL?>"><img src="<?php echo BASE_URL?>ass/img/main/logo.png" style="width:200px;margin:0 auto" alt=""></a>
     </div>
     <div class="row">
-        <div class="col-sm-3" style="padding:0">
+        <div class="col-sm-2" style="padding:0">
             <div class="card m-3 card-nb sidenav" style="position: -webkit-sticky;position: sticky;top: 20px;">
                 <ul>
                     <li id="nav-info" onclick="nav('info')" class="active"><i class="fas fa-user-alt"></i>INFO AKUN</li>
@@ -18,13 +18,13 @@
                     <li id="nav-daftar" onclick="nav('daftar')"><i class="fas fa-user-plus"></i>PENDAFTAR</li>
                     <li id="nav-terdaftar" onclick="nav('terdaftar')"><i class="fas fa-users"></i>PETERNAK</li>
                     <li id="nav-setor" onclick="nav('setor')"><i class="fas fa-wine-bottle"></i>SETORAN SUSU</li>
-                    <li id="nav-biaya" onclick="nav('biaya')"><i class="fas fa-coins"></i>BIAYA</li>
+                    <li id="nav-biaya" onclick="nav('biaya')"><i class="fas fa-coins"></i>TRANSAKSI</li>
                     <li id="nav-invoice" onclick="nav('invoice')"><i class="fas fa-receipt"></i>INVOICE</li>
                     <a href="<?php echo BASE_URL?>logout.php"><li><i class="fas fa-sign-out-alt"></i>LOGOUT</li></a>
                 </ul>
             </div>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-10">
             <div class="card-nb body-content mt-3">
                 <div id="isi-info" class="active">
                     <?php include(ROOT_PATH.'/dashboard/inc/inc.infoakun.php');?>
@@ -60,7 +60,7 @@
 
 <div class="mod-ternak" style="display:none;">
     <div class="overlay"></div>
-    <div class="card-nb modbody-ternak">
+    <div class="card-nb modbody-ternak py-4 px-3" style="width:1000px">
         <div class="close"><i class="fas fa-times"></i></div>
         <div class="spinner" id="ternak-loader" style="display: none;">
             <div class="dot1"></div>
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-<div class="popup">
+<div class="popup" >
     <div class="overlay"></div>
     <div class="pop-modal card p-3 pt-4">
         <div class="pop-close" onclick="closePopup()">
@@ -90,6 +90,13 @@
     include(INC_DIR.'footer.php');
 ?>
 <script>
+    <?php if(isset($_GET['page'])){?>    
+        $(document).ready(function(){
+            <?php if($_GET['page']=='peternak'){?>
+            nav('terdaftar');
+            <?php }?>
+        })
+    <?php }?>
     function showPt2(){
         if($('#pt-wrap').css('display') === 'none'){
             //console.log('none');
@@ -311,7 +318,7 @@
             ajaxCusLoad('#body-invoice');
             $.ajax({
                 url:"<?php echo BASE_URL?>/ajax/ajax.inv.php",
-                method:"POST",
+                method:"GET",
                 data:$("#inv-form").serialize(),
                 success:function(data)
                 {
@@ -480,6 +487,9 @@
         if(menu == 'terd'){
             terdList();
         }
+        if(menu == 'biaya'){
+            biayaList();
+        }
         $('#'+menu+'-srch-cncl').css('display','none')
     }
     function closePopup(){
@@ -532,6 +542,7 @@
             }
         });
     }
+    
     function pendList(){
         var cp = $('#pend-currPage').val()
         var q = $('#pend-srch').val()
@@ -591,6 +602,9 @@
         }
         else if(menu == '#terd'){
             terdList()
+        }
+        else if(menu == '#biaya'){
+            biayaList()
         }
     }
     function cpass(){

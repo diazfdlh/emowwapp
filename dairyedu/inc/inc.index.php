@@ -24,7 +24,7 @@
         foreach($row as $r){
         ?>
         <div class="col-sm-4 p-2">
-        <a href="/dairyedu/?view=<?php echo $r['id_a']; ?>">
+        <a href="<?php echo BASE_URL?>dairyedu/<?php echo $r['id_a']; ?>">
             <div class="card card-nb post-hv">
                 <div class="thumb-post card-img-top" style="
                     background-image: url('<?php echo BASE_URL?>ass/img/du/<?php echo $r['img']?>');

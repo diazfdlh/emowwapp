@@ -24,7 +24,7 @@
         foreach($row as $r){
         ?>
         <div class="col-sm-3 p-2">
-        <a href="/koperasi/?un=<?php echo $r['uname']; ?>">
+        <a href="<?php echo BASE_URL?>koperasi/<?php echo $r['uname']; ?>">
             <div class="card card-nb post-hv">
                 <div class="thumb-post card-img-top" style="
                     background:linear-gradient(45deg, rgba(1,153,97,1) 0%, rgba(181,214,83,1) 45%);

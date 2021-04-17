@@ -8,7 +8,7 @@
         <div class="col-sm-8">
             <div class="row main-btn" style="text-align: center;">
                 <div class="col-sm card card-nb m-3 p-3">
-                    <a href="/konsultasi">
+                    <a href="<?php echo BASE_URL ?>konsultasi">
                         <img class="card-img-top" style="width: 150px;margin:auto;margin-top:-50px;" src="<?php echo BASE_URL?>ass/img/main/icon1.png" alt="Card image cap">
                         <div class="card-body">
                             <h4 class="card-title">Konsultasi</h4>
@@ -17,7 +17,7 @@
                     </a>
                 </div>
                 <div class="col-sm card card-nb m-3 p-3">
-                <a href="/dairyedu">
+                <a href="<?php echo BASE_URL ?>dairyedu">
                     <img class="card-img-top" style="width: 150px;margin:auto;margin-top:-50px;" src="<?php echo BASE_URL?>ass/img/main/icon2.png" alt="Card image cap">
                     <div class="card-body">
                         <h4 class="card-title">DairyEdu</h4>
@@ -35,7 +35,7 @@
                 foreach($row as $r){
             ?>
             <div class="card card-nb post-hv mt-2 mb-2">
-                <a href="/dairyedu/?view=<?php echo $r['id_a']; ?>">
+                <a href="<?php echo BASE_URL ?>dairyedu/<?php echo $r['id_a']; ?>">
                     <div class="row">
                         <div class="col-4 thumb-post" style="
                             background-image: url('<?php echo BASE_URL?>ass/img/du/<?php echo $r['img']?>');

@@ -19,12 +19,45 @@
         foreach($row as $r){
             ?>
             <div id="ternak-row-<?php echo $r['id_user'];?>" class="row list m-1" style="border: 1pt solid #dcdcdc;">
-                <div class="col-2"><?php echo $r['no_ternak']?></div>
                 <div class="col-2"><?php echo $r['bulan']?></div>
-                <div class="col-3"><?php echo $r['tahun']?></div>
-                <div class="col-2"><?php echo $r['dara']?></div>
-                <div class="col-2"><?php echo $r['pedet']?></div>
-                <div class="col-1">
+                <div class="col-2"><?php echo $r['tahun']?></div>
+                <div class="col-6">
+                    <table>
+                        <tr>
+                            <td>Pedet Betina</td>
+                            <td>: <?php echo $r['pedet_betina'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Pedet Jantan</td>
+                            <td>: <?php echo $r['pedet_jantan'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Dara Siap Kawin</td>
+                            <td>: <?php echo $r['dara_siap_kawin'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Dara Bunting</td>
+                            <td>: <?php echo $r['dara_bunting'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Induk Laktasi</td>
+                            <td>: <?php echo $r['induk_laktasi'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Induk Kering</td>
+                            <td>: <?php echo $r['induk_kering'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Jantan Muda</td>
+                            <td>: <?php echo $r['jantan_muda'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Jantan Dewasa</td>
+                            <td>: <?php echo $r['jantan_dewasa'];?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-2">
                     <i class="fas fa-pencil-alt" style="cursor: pointer;color:#019961;" onclick="edit(<?php echo $r['id_ternak'];?>)"></i>
                     <i class="fas fa-trash" style="cursor: pointer;color:#d44950;" onclick="del(<?php echo $r['id_ternak'];?>)"></i>
                 </div>
@@ -102,40 +135,81 @@
             <h3 style="border-bottom:solid 1pt #dcdcdc;padding-bottom:10px">Tambah Ternak</h3>
             <form action="" id="add-form" method="post">
                 <div class="row mt-2 mb-2">
-                    <div class="col-6">Nomor Ternak</div>
-                    <div class="col-6"><input required type="text" name="no" class="form-control" placeholder="Masukan Nomor Ternak"></div>
-                </div>
-                <div class="row mt-2 mb-2">
                     <div class="col-6">Bulan</div>
-                    <div class="col-6"><input required type="number" maxlength="2" name="bulan" class="form-control" placeholder="Masukan Bulan Ternak"></div>
-                </div>
-                <div class="row mt-2 mb-2">
-                    <div class="col-6">Tahun</div>
-                    <div class="col-6"><input required type="number" maxlength="4" name="tahun" class="form-control" placeholder="Masukan Tahun Ternak"></div>
-                </div>
-                <div class="row mt-2 mb-2">
-                    <div class="col-6">Dara</div>
                     <div class="col-6">
-                        <select required name="dara" class="form-control">
-                            <option value="Bunting">Bunting</option>
-                            <option value="Siap kawin">Siap Kawin</option>
+                        <select name="bulan" class="form-control">
+                            <option value="01" <?php if(date('m',time())==1){echo'selected';}?>>Jan</option>
+                            <option value="02" <?php if(date('m',time())==2){echo'selected';}?>>Feb</option>
+                            <option value="03" <?php if(date('m',time())==3){echo'selected';}?>>Mar</option>
+                            <option value="04" <?php if(date('m',time())==4){echo'selected';}?>>Apr</option>
+                            <option value="05" <?php if(date('m',time())==5){echo'selected';}?>>Mei</option>
+                            <option value="06" <?php if(date('m',time())==6){echo'selected';}?>>Jun</option>
+                            <option value="07" <?php if(date('m',time())==7){echo'selected';}?>>Jul</option>
+                            <option value="08" <?php if(date('m',time())==8){echo'selected';}?>>Aug</option>
+                            <option value="09" <?php if(date('m',time())==9){echo'selected';}?>>Sep</option>
+                            <option value="10" <?php if(date('m',time())==10){echo'selected';}?>>Oct</option>
+                            <option value="11" <?php if(date('m',time())==11){echo'selected';}?>>Nov</option>
+                            <option value="12" <?php if(date('m',time())==12){echo'selected';}?>>Dec</option>
                         </select>
                     </div>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <div class="col-6">Pedet</div>
+                    <div class="col-6">Tahun</div>
+                    <div class="col-6"><input required type="number" maxlength="4" name="tahun" class="form-control" placeholder="Masukan Tahun Ternak" value="<?php echo date('Y',time());?>"></div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Pedet Betina</div>
                     <div class="col-6">
-                        <select required name="pedet" class="form-control">
-                            <option value="Betina">Betina</option>
-                            <option value="Jantan">Jantan</option>
-                        </select>
+                        <input type="number" class="form-control" name="pedet_betina">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Pedet Jantan</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="pedet_jantan">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Dara Siap Kawin</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="dara_siap_kawin">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Dara Bunting</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="dara_bunting">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Induk Laktasi</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="induk_laktasi">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Induk Kering</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="induk_kering">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Jantan Muda</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="jantan_muda">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Jantan Dewasa</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="jantan_dewasa">
                     </div>
                 </div>
                 <input type="hidden" name="mode" value="initAdd">
                 <div class="row mt-2 mb-2">
                     <div class="col-6"></div>
                     <div class="col-6">
-                        <button type="submit" name="submitAdd" class="btn-chat p-2" style="border:none;width:100%;">Tambah Ternak</button>
+                        <button type="submit" name="submitAdd" class="btn-act px-2 py-3 mt-3" style="border:none;width:100%;">Tambah Ternak</button>
                     </div>
                 </div>
             </form>
@@ -184,41 +258,83 @@
             <h3 style="border-bottom:solid 1pt #dcdcdc;padding-bottom:10px">Tambah Ternak</h3>
             <form action="" id="edit-form" method="post">
                 <div class="row mt-2 mb-2">
-                    <div class="col-6">Nomor Ternak</div>
-                    <div class="col-6"><input value="<?php echo $row['no_ternak'];?>" required type="text" name="no" class="form-control" placeholder="Masukan Nomor Ternak"></div>
-                </div>
-                <div class="row mt-2 mb-2">
                     <div class="col-6">Bulan</div>
-                    <div class="col-6"><input value="<?php echo $row['bulan'];?>"" required type="number" maxlength="2" name="bulan" class="form-control" placeholder="Masukan Bulan Ternak"></div>
+                    <div class="col-6">
+                        <select name="bulan" class="form-control">
+                            <option value="01" <?php if($row['bulan']==1){echo'selected';}?>>Jan</option>
+                            <option value="02" <?php if($row['bulan']==2){echo'selected';}?>>Feb</option>
+                            <option value="03" <?php if($row['bulan']==3){echo'selected';}?>>Mar</option>
+                            <option value="04" <?php if($row['bulan']==4){echo'selected';}?>>Apr</option>
+                            <option value="05" <?php if($row['bulan']==5){echo'selected';}?>>Mei</option>
+                            <option value="06" <?php if($row['bulan']==6){echo'selected';}?>>Jun</option>
+                            <option value="07" <?php if($row['bulan']==7){echo'selected';}?>>Jul</option>
+                            <option value="08" <?php if($row['bulan']==8){echo'selected';}?>>Aug</option>
+                            <option value="09" <?php if($row['bulan']==9){echo'selected';}?>>Sep</option>
+                            <option value="10" <?php if($row['bulan']==10){echo'selected';}?>>Oct</option>
+                            <option value="11" <?php if($row['bulan']==11){echo'selected';}?>>Nov</option>
+                            <option value="12" <?php if($row['bulan']==12){echo'selected';}?>>Dec</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row mt-2 mb-2">
                     <div class="col-6">Tahun</div>
-                    <div class="col-6"><input value="<?php echo $row['tahun'];?>"" required type="number" maxlength="4" name="tahun" class="form-control" placeholder="Masukan Tahun Ternak"></div>
+                    <div class="col-6"><input value="<?php echo $row['tahun'];?>" required type="number" maxlength="4" name="tahun" class="form-control" placeholder="Masukan Tahun Ternak"></div>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <div class="col-6">Dara</div>
+                    <div class="col-6">Pedet Betina</div>
                     <div class="col-6">
-                        <select required name="dara" class="form-control">
-                            <option value="Bunting" <?php if($row['dara']=='Bunting'){echo 'selected';}?>>Bunting</option>
-                            <option value="Siap kawin" <?php if($row['dara']=='Siap kawin'){echo 'selected';}?>>Siap Kawin</option>
-                        </select>
+                        <input type="number" class="form-control" name="pedet_betina" value="<?php echo $row['pedet_betina'];?>">
                     </div>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <div class="col-6">Pedet</div>
+                    <div class="col-6">Pedet Jantan</div>
                     <div class="col-6">
-                        <select required name="pedet" class="form-control">
-                            <option value="Betina" <?php if($row['pedet']=='Betina'){echo 'selected';}?>>Betina</option>
-                            <option value="Jantan" <?php if($row['pedet']=='Jantan'){echo 'selected';}?>>Jantan</option>
-                        </select>
+                        <input type="number" class="form-control" name="pedet_jantan" value="<?php echo $row['pedet_jantan'];?>">
                     </div>
                 </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Dara Siap Kawin</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="dara_siap_kawin" value="<?php echo $row['dara_siap_kawin'];?>">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Dara Bunting</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="dara_bunting" value="<?php echo $row['dara_bunting'];?>">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Induk Laktasi</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="induk_laktasi" value="<?php echo $row['induk_laktasi'];?>">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Induk Kering</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="induk_kering" value="<?php echo $row['induk_kering'];?>">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Jantan Muda</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="jantan_muda" value="<?php echo $row['jantan_muda'];?>">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-6">Jantan Dewasa</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" name="jantan_dewasa" value="<?php echo $row['jantan_dewasa'];?>">
+                    </div>
+                </div>
+
                 <input type="hidden" name="mode" value="initEdit">
                 <input type="hidden" name="id" value="<?php echo $id;?>">
                 <div class="row mt-2 mb-2">
                     <div class="col-6"></div>
                     <div class="col-6">
-                        <button type="submit" name="submitEdit" class="btn-chat p-2" style="border:none;width:100%;">Edit Ternak</button>
+                        <button type="submit" name="submitEdit" class="btn-act px-2 py-3 mt-3" style="border:none;width:100%;">Edit Ternak</button>
                     </div>
                 </div>
             </form>
@@ -264,40 +380,49 @@
 <?php
     if(isset($_POST['mode']) && $_POST['mode'] == 'initAdd'){
         $id = $_SESSION['user']['id_user'];
-        $no = $_POST['no'];
         $bulan = $_POST['bulan'];
         $tahun = $_POST['tahun'];
-        $pedet = $_POST['pedet'];
-        $dara = $_POST['dara'];
+        $PedetBetina = $_POST['pedet_betina'];
+        $PedetJantan = $_POST['pedet_jantan'];
+        $DaraSiapKawin = $_POST['dara_siap_kawin'];
+        $DaraBunting = $_POST['dara_bunting'];
+        $IndukLaktasi = $_POST['induk_laktasi'];
+        $IndukKering = $_POST['induk_kering'];
+        $JantanMuda = $_POST['jantan_muda'];
+        $JantanDewasa = $_POST['jantan_dewasa'];
+        $total = intVal($PedetBetina)+intVal($PedetJantan)+intVal($DaraSiapKawin)+intVal($DaraBunting)+intVal($IndukLaktasi)+intVal($IndukKering)+intVal($JantanDewasa)+intVal($JantanMuda);
+        //echo $total;
         $e = 0;
-        if(empty($no)){$e++;}
         if(empty($bulan)){$e++;}
         if(empty($tahun)){$e++;}
-        if(empty($pedet)){$e++;}
-        if(empty($dara)){$e++;}
         if(!$e){
-            $sql = mysqli_query($conn,"INSERT INTO ternak (id_user,no_ternak,bulan,tahun,dara,pedet,created) VALUES('$id','$no','$bulan','$tahun','$dara','$pedet',now())");
-            echo '<div style="background:#077703;color:#fff">Berhasil Tambah Ternak</div>';
+            $sql = mysqli_query($conn,"INSERT INTO ternak (`id_user`, `bulan`, `tahun`, `created`, `pedet_betina`, `pedet_jantan`, `dara_siap_kawin`, `dara_bunting`, `induk_laktasi`, `induk_kering`, `jantan_muda`, `jantan_dewasa`, `total`)  VALUES('$id','$bulan','$tahun', now(),'$PedetBetina','$PedetJantan','$DaraSiapKawin','$DaraBunting','$IndukLaktasi','$IndukKering','$JantanMuda','$JantanDewasa', '$total')");
+            echo mysqli_error($conn);
+            echo '<div class="alert alert-success" style="z-index:10">Berhasil Tambah Ternak</div>';
         }else{
             echo 0;
         }
     }
     if(isset($_POST['mode']) && $_POST['mode'] == 'initEdit'){
         $id = $_POST['id'];
-        $no = $_POST['no'];
         $bulan = $_POST['bulan'];
         $tahun = $_POST['tahun'];
-        $pedet = $_POST['pedet'];
-        $dara = $_POST['dara'];
+        $PedetBetina = $_POST['pedet_betina'];
+        $PedetJantan = $_POST['pedet_jantan'];
+        $DaraSiapKawin = $_POST['dara_siap_kawin'];
+        $DaraBunting = $_POST['dara_bunting'];
+        $IndukLaktasi = $_POST['induk_laktasi'];
+        $IndukKering = $_POST['induk_kering'];
+        $JantanMuda = $_POST['jantan_muda'];
+        $JantanDewasa = $_POST['jantan_dewasa'];
+        $total = intVal($PedetBetina)+intVal($PedetJantan)+intVal($DaraSiapKawin)+intVal($DaraBunting)+intVal($IndukLaktasi)+intVal($IndukKering)+intVal($JantanDewasa)+intVal($JantanMuda);
         $e = 0;
-        if(empty($no)){$e++;}
         if(empty($bulan)){$e++;}
         if(empty($tahun)){$e++;}
-        if(empty($pedet)){$e++;}
-        if(empty($dara)){$e++;}
         if(!$e){
-            $sql = mysqli_query($conn,"UPDATE ternak set no_ternak='$no', bulan='$bulan', tahun='$tahun', dara='$dara', pedet='$pedet' where id_ternak ='$id'");
-            echo '<div style="background:#077703;color:#fff">Berhasil Edit Ternak</div>';
+            $sql = mysqli_query($conn,"UPDATE ternak SET bulan='$bulan', tahun='$tahun', pedet_betina='$PedetBetina', pedet_jantan='$PedetJantan', dara_siap_kawin='$DaraSiapKawin', dara_bunting='$DaraBunting', induk_laktasi='$IndukLaktasi', induk_kering='$IndukKering', jantan_muda='$JantanMuda', jantan_dewasa='$JantanDewasa', total = '$total' where id_ternak ='$id'");
+            echo '<div class="alert alert-success" style="z-index:10">Berhasil Edit Ternak</div>';
+            echo mysqli_error($conn);
         }else{
             echo 0;
         }

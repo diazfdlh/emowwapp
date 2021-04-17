@@ -22,18 +22,25 @@
             ?>
             <div id="biaya-row-<?php echo $r['id_user'];?>" class="row list m-1" style="border: 1pt solid #dcdcdc;font-size:8pt">
                 <div class="col-1"><?php echo $tgl?></div>
-                <div class="col-2"><?php echo $r['mingguke']?></div>
-                <div class="col-3"><?php echo $r['nama']?></div>
-                <div class="col-4">
+                <div class="col-2"><?php if($r['mingguke'] == 0){echo "Minggu Ke 1";}else{echo "Minggu Ke 2";}?></div>
+                <div class="col-2"><?php echo $r['nama']?></div>
+                <div class="col-5">
                     <?php
                         $sql = mysqli_query($conn,"SELECT * FROM biaya_ext where id_b='$id_b' order by jenis");
                         $row1 = mysqli_fetch_all($sql,MYSQLI_ASSOC);
                         foreach($row1 as $r1){
                     ?>
                         <div class="row">
-                            <div class="col-4"><?php echo $r1['nama_b'];?></div>
-                            <div class="col-4"><?php if($r1['jenis']=='kredit'){echo 'Rp.'.$r1['nominal'];}else{echo '-';}?></div>
-                            <div class="col-4"><?php if($r1['jenis']=='debit'){echo 'Rp.'.$r1['nominal'];}else{echo '-';}?></div>
+                            <?php
+                                $arr = array("Fat","SNF","Density","Protein","Lactose","Salts","Added Water","Freezing Point","TPC");
+                                if(in_array($r1['nama_b'],$arr) && $r1['nama_b']!="Freezing Point" && $r1['nama_b'] != "TPC"){ $qty = '%';}
+                                else if($r1['nama_b'] == "Freezing Point"){$qty = "°C";}
+                                else if($r1['nama_b'] == "TPC"){$qty = "CFU/ml";}
+                                else{ $qty = "x";}
+                            ?>
+                            <div class="col-4"><?php echo $r1['nama_b'].' <b>'.$r1['qty'].''.$qty;?></b></div>
+                            <div class="col-4" style="text-align: right;"><?php if($r1['jenis']=='kredit'){echo 'Rp '.number_format($r1['nominal'],0,"",".");}else{echo '-';}?></div>
+                            <div class="col-4" style="text-align: right;"><?php if($r1['jenis']=='debit'){echo 'Rp '.number_format($r1['nominal'],0,"",".");}else{echo '-';}?></div>
                         </div>
                     <?php } ?>
                 </div>
@@ -58,7 +65,7 @@
             <?php
             for($i=1;$i<=$total;$i++){
                 ?>
-                    <span onclick="goto(<?php echo $i?>,'#setor')" class="card pgnum <?php if($cp == $i){echo 'active';}?>"><?php echo $i;?></span>
+                    <span onclick="goto(<?php echo $i?>,'#biaya')" class="card pgnum <?php if($cp == $i){echo 'active';}?>"><?php echo $i;?></span>
                 <?php
             }
             ?>
@@ -70,7 +77,7 @@
     if(isset($_POST['mode']) && $_POST['mode'] == 'showModAdd'){
         $date = date('Y-m-d',time());
         ?>
-            <h3 style="border-bottom:solid 1pt #dcdcdc;padding-bottom:10px">Tambah Biaya</h3>
+            <h3 style="border-bottom:solid 1pt #dcdcdc;padding-bottom:10px">Tambah Transaksi</h3>
             <form action="" id="add-form-b" method="post">
                 <div class="row mt-2 mb-2">
                     <div class="col-5">Peternak</div>
@@ -147,37 +154,115 @@
                 <div class="row mt-2 mb-2">
                     <div class="col-12"><div id="add-field-btn" onclick="addField()" class="chat-btn" style="background:linear-gradient(45deg, rgba(1,153,97,1) 0%, rgba(181,214,83,1) 70%);display: inline-block;margin-right:10px"><i class="fas fa-plus"></i></div>Tambah Field </div>
                 </div>
+                <div class="row field-header">
+                    <div class="col-2">Jenis Transaksi</div>
+                    <div class="col-3">Nama Transaksi</div>
+                    <div class="col-3">Jumlah</div>
+                    <div class="col-3">Nominal</div>
+                    <div class="col-1"></div>
+                </div>
                 <div id="ext-wrap">
                     <div class="row mt-2 mb-2">
-                        <div class="col-3">
+                        <div class="col-2">
                             <select name="ext[0][plusmin]" class="form-control"><option value="kredit">+Kredit</option><option value="debit">-Debit</option></select>
                         </div>
-                        <div class="col-4">
-                            <input required type="text" name="ext[0][detail]" class="form-control" placeholder="Nama Biaya">
+                        <div class="col-3">
+                            <select class="form-control nama-transaksi">
+                                <option value="Custom">-Custom-</option>
+                                <option value="Fat">Fat</option>
+                                <option value="SNF">SNF</option>
+                                <option value="Density">Density</option>
+                                <option value="Protein">Protein</option>
+                                <option value="Lactose">Lactose</option>
+                                <option value="Salts">Salts</option>
+                                <option value="Added Water">Added Water</option>
+                                <option value="Freezing Point">Freezing Point</option>
+                                <option value="TPC">TPC</option>
+                            </select>
+                            <input required type="text" id="n-t" name="ext[0][detail]" class="form-control" placeholder="Nama Transaksi">
                         </div>
                         <div class="col-3">
-                            <input required type="number" name="ext[0][biaya]" class="form-control" placeholder="Nominal">
+                            <div class="input-group mb-3">
+                                <input required type="number" step="0.01" value="" name="ext[0][qty]" class="form-control qty" placeholder="Qty">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">x</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" name="ext[0][biaya]" class="form-control nomm" placeholder="Nominal">
+                            </div>
+                            
+                        </div>
+                        <div class="col-1">
                             <i style="color:#dcdcdc;">default</i>
                         </div>
                     </div>
                 </div>
                 <input type="hidden" name="mode" value="initAdd">
                 <input type="number" hidden name="n" id="n" value="1">
+                <small class="text-danger">*CATATAN :</small><br/>
+                <small class="text-danger">Total Transaksi Custom hasil pengkalian jumlah dan nominal</small><br/>
+                <small class="text-danger">Total Transaksi selain Custom akan di kalikan dengan jumlah susu periode 2 minggu yang tercantum</small><br/>
                 <div class="row mt-2 mb-2">
-                    <div class="col-5"></div>
-                    <div class="col-7">
-                        <button type="submit" name="submitAdd" class="btn-act p-2" style="border:none;width:100%;">Tambah Biaya</button>
+                    <div class="col-7"></div>
+                    <div class="col-5">
+                        <button type="submit" name="submitAdd" class="btn-act px-2 py-3 mt-3" style="border:none;width:100%;font-size:12pt;">Tambah Transaksi</button>
                     </div>
                 </div>
             </form>
             <script> 
+            
+            $(document).on('change','.nama-transaksi',function(e){
+                var opt = $(this).val();
+                if(opt==='Custom'){
+                    $(this).next('#n-t').prop('value','').show();
+                }else{
+                    $(this).next('#n-t').hide().prop('value',opt);
+                    switch (opt) {
+                        case 'Fat':
+                            pre = "%";
+                            break;
+                        case 'SNF':
+                            pre = "%";
+                            break;
+                        case 'Density':
+                            pre = "%";
+                            break;
+                        case 'Protein':
+                            pre = "%";
+                            break;
+                        case 'Lactose':
+                            pre = "%";
+                            break;
+                        case 'Salts':
+                            pre = "%";
+                            break;
+                        case 'Added Water':
+                            pre = "%";
+                            break;
+                        case 'Freezing Point':
+                            pre = "&deg;C";
+                            break;
+                        case 'TPC':
+                            pre = "<small style='font-size:7pt;'>CFU/ml</small>";
+                            break;
+                        default:
+                            pre = "-";
+                    }
+                    $(this).closest('.row').find('.input-group-append>.input-group-text').empty().html(pre);
+                }
+            })
+
                 function addField(){
                     var n = $('.mod-ternak #n').val();
                     n = parseInt(n);
                     n += 1; 
-                    $('.mod-ternak #ext-wrap').append('<div class="row mt-2 mb-2"><div class="col-3"><select name="ext['+n+'][plusmin]" class="form-control"><option value="kredit">+Kredit</option><option value="debit">-Debit</option></select></div><div class="col-4"><input required type="text" name="ext['+n+'][detail]" class="form-control" placeholder="Nama Biaya"></div><div class="col-3"><input required type="number" name="ext['+n+'][biaya]" class="form-control" placeholder="Nominal"></div><div class="col-2"><div class="chat-btn remove-field-btn" style="background:red;"><i class="fas fa-minus"></i></div></div></div>');
+                    $('.mod-ternak #ext-wrap').append('<div class="row mt-2 mb-2"><div class="col-2"><select name="ext['+n+'][plusmin]" class="form-control"><option value="kredit">+Kredit</option><option value="debit">-Debit</option></select></div><div class="col-3"><select class="form-control nama-transaksi"> <option value="Custom">-Custom-</option> <option value="Fat">Fat</option> <option value="SNF">SNF</option> <option value="Density">Density</option> <option value="Protein">Protein</option> <option value="Lactose">Lactose</option> <option value="Salts">Salts</option> <option value="Added Water">Added Water</option> <option value="Freezing Point">Freezing Point</option> <option value="TPC">TPC</option> </select> <input required type="text" id="n-t" name="ext['+n+'][detail]" class="form-control" placeholder="Nama Transaksi"></div><div class="col-3"><div class="input-group mb-3"> <input required type="number" step="0.01" value="" name="ext['+n+'][qty]" class="form-control qty" placeholder="Qty"> <div class="input-group-append"> <span class="input-group-text">x</span> </div></div></div><div class="col-3"><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">Rp</span></div><input  type="number" name="ext['+n+'][biaya]" class="form-control nomm" placeholder="Nominal"></div></div><div class="col-1"><div class="chat-btn remove-field-btn" style="background:red;"><i class="fas fa-times"></i></div></div></div>');
                     $('.mod-ternak #n').attr('value',n);
                 }
                 $('.mod-ternak #ext-wrap').on('click','.remove-field-btn',function(e){
@@ -285,7 +370,14 @@
                     </div>
                 </div>
                 <div class="row mt-2 mb-2">
-                    <div class="col-12"><div id="add-field-btn" onclick="addField()" class="chat-btn" style="background:linear-gradient(45deg, rgba(1,153,97,1) 0%, rgba(181,214,83,1) 70%);display: inline-block;margin-right:10px"><i class="fas fa-plus"></i></div>Tambah Field <span style="font-size: 8pt;color:#999;">*tambahkan ( - ) pada nominal biaya untuk pengurangan biaya</span></div>
+                    <div class="col-12"><div id="add-field-btn" onclick="addField()" class="chat-btn" style="background:linear-gradient(45deg, rgba(1,153,97,1) 0%, rgba(181,214,83,1) 70%);display: inline-block;margin-right:10px"><i class="fas fa-plus"></i></div>Tambah Field </div>
+                </div>
+                <div class="row field-header">
+                    <div class="col-2">Jenis Transaksi</div>
+                    <div class="col-3">Nama Transaksi</div>
+                    <div class="col-3">Jumlah</div>
+                    <div class="col-3">Nominal</div>
+                    <div class="col-1"></div>
                 </div>
                 <div id="ext-wrap">
                     <?php 
@@ -297,25 +389,61 @@
                             $n +=1;
                     ?>
                         <div class="row mt-2 mb-2">
-                            <div class="col-3">
+                            <div class="col-2">
                                 <select name="ext[<?php echo $n?>][plusmin]" class="form-control unedited">
                                     <option value="kredit" <?php if($r['jenis']=='kredit'){echo 'selected';}?>>+Kredit</option>
                                     <option value="debit" <?php if($r['jenis']=='debit'){echo 'selected';}?>>-Debit</option>
                                 </select>
                             </div>
-                            <div class="col-4">
-                                <input required type="text" value="<?php echo $r['nama_b'];?>" name="ext[<?php echo $n?>][detail]" class="form-control unedited" placeholder="Nama Biaya">
+                            <div class="col-3">
+                            <?php
+                                $arr = array("Fat","SNF","Density","Protein","Lactose","Salts","Added Water","Freezing Point","TPC");
+                            ?>
+                                <select class="form-control nama-transaksi unedited">
+                                    <option value="Custom" <?php if(!in_array($r['nama_b'],$arr)){echo "selected";}?>>-Custom-</option>
+                                    <option value="Fat" <?php if($r['nama_b'] === "Fat"){echo "selected";}?>>Fat</option>
+                                    <option value="SNF" <?php if($r['nama_b'] === "SNF"){echo "selected";}?>>SNF</option>
+                                    <option value="Density" <?php if($r['nama_b'] === "Density"){echo "selected";}?>>Density</option>
+                                    <option value="Protein" <?php if($r['nama_b'] === "Protein"){echo "selected";}?>>Protein</option>
+                                    <option value="Lactose" <?php if($r['nama_b'] === "Lactose"){echo "selected";}?>>Lactose</option>
+                                    <option value="Salts" <?php if($r['nama_b'] === "Salts"){echo "selected";}?>>Salts</option>
+                                    <option value="Added Water" <?php if($r['nama_b'] === "Added Water"){echo "selected";}?>>Added Water</option>
+                                    <option value="Freezing Point" <?php if($r['nama_b'] === "Freezing Point"){echo "selected";}?>>Freezing Point</option>
+                                    <option value="TPC" <?php if($r['nama_b'] === "TPC"){echo "selected";}?>>TPC</option>
+                                </select>
+                                <input required type="text" id="n-t" value="<?php echo $r['nama_b'];?>" name="ext[<?php echo $n?>][detail]" style="<?php if(in_array($r['nama_b'],$arr)){echo "display:none;";}?>" class="form-control unedited" placeholder="Nama Transaksi">
                                 <input required type="number" value="<?php echo $r['id_be'] ?>" name="ext[<?php echo $n?>][id_b]" hidden>
                             </div>
                             <div class="col-3">
-                                <input required type="number" value="<?php echo $r['nominal'];?>" name="ext[<?php echo $n?>][biaya]" class="form-control unedited" placeholder="Nominal">
+                            <div class="input-group mb-3">
+                                <input required type="number"step="0.01" value="<?php echo $r['qty'];?>" name="ext[<?php echo $n?>][qty]" class="form-control unedited qty" placeholder="Qty">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <?php 
+                                            if(in_array($r['nama_b'],$arr) && $r['nama_b'] != 'Freezing Point' && $r['nama_b'] != "TPC"){
+                                                echo "%";
+                                            }else if($r['nama_b'] == "Freezing Point"){echo "&deg;C";}
+                                            else if($r['nama_b'] == "TPC"){echo "<small style='font-size:7pt;'>CFU/ml</small>";}
+                                            else{echo "x";}
+                                        ?>
+                                    </span>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" value="<?php echo $r['nominal'];?>" name="ext[<?php echo $n?>][biaya]" class="form-control unedited nomm" placeholder="Nominal">
+                            </div>
                                 <input required type="number" class="editedstat" value="0" name="ext[<?php echo $n?>][status]" hidden>
                             </div>
-                            <div class="col-2">
+                            <div class="col-1">
                                 <?php if($n!=1){?>
-                                    <div class="chat-btn remove-field-btn unedited" style="background: red;"><i class="fas fa-minus"></i></div>
+                                    <div class="chat-btn remove-field-btn unedited" style="background: red;"><i class="fas fa-times"></i></div>
                                 <?php }else{?>
-                                    <i style="color:#dcdcdc;">Min 1</i>
+                                    <i style="color:#dcdcdc;">Default</i>
                                 <?php }?>
                             </div>
                         </div>
@@ -324,10 +452,13 @@
                 <input type="hidden" name="mode" value="initEdit">
                 <input type="hidden" name="id" value="<?php echo $id_b;?>">
                 <input type="number" hidden name="n" id="n" value="<?php echo $n1;?>">
+                <small class="text-danger">*CATATAN :</small><br/>
+                <small class="text-danger">Total Transaksi Custom hasil pengkalian jumlah dan nominal</small><br/>
+                <small class="text-danger">Total Transaksi selain Custom akan di kalikan dengan jumlah susu periode 2 minggu yang tercantum</small><br/>
                 <div class="row mt-2 mb-2">
-                    <div class="col-5"></div>
-                    <div class="col-7">
-                        <button type="submit" name="submitEdit" class="btn-act p-2" style="border:none;width:100%;">Simpan Setor</button>
+                    <div class="col-7"></div>
+                    <div class="col-5">
+                        <button type="submit" name="submitEdit" class="btn-act px-2 py-3 mt-3" style="border:none;width:100%;font-size:12pt;">Simpan Setor</button>
                     </div>
                 </div>
             </form>
@@ -337,7 +468,7 @@
                     var n = $('.mod-ternak #n').val();
                     n = parseInt(n);
                     n += 1; 
-                    $('.mod-ternak #ext-wrap').append('<div class="row mt-2 mb-2"><div class="col-3"><select name="ext['+n+'][plusmin]" class="form-control"><option value="kredit">+Kredit</option><option value="debit">-Debit</option></select></div><div class="col-4"><input required type="text" name="ext['+n+'][detail]" class="form-control" placeholder="Nama Biaya"></div><div class="col-3"><input required type="number" name="ext['+n+'][biaya]" class="form-control" placeholder="Nominal"><input required type="number" value="2" name="ext['+n+'][status]" hidden></div><div class="col-2"><div class="chat-btn remove-field-btn added" style="background:red;"><i class="fas fa-minus"></i></div></div></div>');
+                    $('.mod-ternak #ext-wrap').append('<div class="row mt-2 mb-2"><div class="col-2"><select name="ext['+n+'][plusmin]" class="form-control"><option value="kredit">+Kredit</option><option value="debit">-Debit</option></select></div><div class="col-3"><select class="form-control nama-transaksi"> <option value="Custom">-Custom-</option> <option value="Fat">Fat</option> <option value="SNF">SNF</option> <option value="Density">Density</option> <option value="Protein">Protein</option> <option value="Lactose">Lactose</option> <option value="Salts">Salts</option> <option value="Added Water">Added Water</option> <option value="Freezing Point">Freezing Point</option> <option value="TPC">TPC</option> </select><input id="n-t" required type="text" name="ext['+n+'][detail]" class="form-control" placeholder="Nama Transaksi"></div><div class="col-3"><div class="input-group mb-3"> <input required type="number" step="0.01" value="" name="ext['+n+'][qty]" class="form-control qty" placeholder="Qty"> <div class="input-group-append"> <span class="input-group-text">x</span> </div></div></div><div class="col-3"><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">Rp</span></div><input type="number" name="ext['+n+'][biaya]" class="form-control nomm" placeholder="Nominal"></div><input required type="number" value="2" name="ext['+n+'][status]" hidden></div><div class="col-1"><div class="chat-btn remove-field-btn added" style="background:red;"><i class="fas fa-times"></i></div></div></div>');
                     $('.mod-ternak #n').attr('value',n);
                 }
                 $('.mod-ternak #ext-wrap').on('change','.unedited',function(e){
@@ -386,19 +517,22 @@
         $id_b = mysqli_insert_id($conn);
         foreach($_POST['ext'] as $x => $x_value) {
             $biaya = 0;
+            $qty = 1;
             $detail = '';
             foreach($x_value as $sub_x => $sub_x_value) {
                 if($sub_x == 'detail'){
                     $detail = $sub_x_value;
-                }else if($sub_x == 'biaya'){
+                }else if($sub_x == 'biaya' && !empty($sub_x)){
                     $biaya = $sub_x_value;
+                }else if($sub_x == 'qty' && !empty($sub_x)){
+                    $qty = $sub_x_value;
                 }else{
                     $mode = $sub_x_value;
                 }
             }
-            $sql = mysqli_query($conn,"INSERT INTO biaya_ext (id_b,nama_b,nominal,jenis) values('$id_b','$detail','$biaya','$mode')");       
+            $sql = mysqli_query($conn,"INSERT INTO biaya_ext (id_b,nama_b,nominal,jenis,qty) values('$id_b','$detail','$biaya','$mode','$qty')");       
         }
-        echo '<div style="background:#077703;color:#fff" class="p-2">Berhasil Tambah Biaya</div>';
+        echo '<div style="background:#077703;color:#fff" class="p-2">Berhasil Tambah Transaksi</div>';
     }
     if(isset($_POST['mode']) && $_POST['mode'] == 'initEdit'){
         $id = $_SESSION['user']['id_user'];
@@ -421,21 +555,23 @@
                     $id_be = $sub_x_value;
                 }else if($sub_x == 'plusmin'){
                     $mode = $sub_x_value;
+                }else if($sub_x == 'qty' && !empty($sub_x)){
+                    $qty = $sub_x_value;
                 }else{
                     $status = $sub_x_value;
                 }
             }
             if($status == 1){//edited
-                $sql = mysqli_query($conn,"UPDATE biaya_ext set id_b='$id_b',nama_b='$detail',nominal='$biaya',jenis='$mode' where id_be='$id_be'");
+                $sql = mysqli_query($conn,"UPDATE biaya_ext set id_b='$id_b',nama_b='$detail',nominal='$biaya',jenis='$mode',qty='$qty' where id_be='$id_be'");
             }else if($status == 2){//added
-                $sql = mysqli_query($conn,"INSERT INTO biaya_ext (id_b,nama_b,nominal,jenis) values('$id_b','$detail','$biaya','$mode')");
+                $sql = mysqli_query($conn,"INSERT INTO biaya_ext (id_b,nama_b,nominal,jenis,qty) values('$id_b','$detail','$biaya','$mode','$qty')");
             }else if($status == 3){//removed
                 $sql = mysqli_query($conn,"DELETE FROM biaya_ext where id_be='$id_be'");
             }else{
             }
                     
         }
-        echo '<div style="background:#077703;color:#fff"  class="p-2">Berhasil Tambah Setor</div>';
+        echo '<div style="background:#077703;color:#fff"  class="p-2">Berhasil Edit Transaksi</div>';
     }
     if(isset($_POST['mode']) && $_POST['mode'] == 'initDel'){
         $id = $_POST['id'];

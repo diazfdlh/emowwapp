@@ -12,7 +12,7 @@
         color:#fff !important;
     }
 </style>
-<div class="container" style="max-width: 1100px;">
+<div class="container" style="max-width: 1300px;">
     <div class="card card-nb p-3">
         <img src="<?php echo BASE_URL?>ass/img/main/logo.png" style="width:200px;margin:0 auto" alt="">
     </div>
@@ -28,18 +28,20 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-8 card-nb card m-3 body-content">
-            <div id="isi-info" class="active">
-                <?php include(ROOT_PATH.'/admin/inc/inc.infoakun.php');?>
-            </div>
-            <div id="isi-sec">
-                <?php include(ROOT_PATH.'/admin/inc/inc.secur.php');?>
-            </div>
-            <div id="isi-akt-us">
-                <?php include(ROOT_PATH.'/admin/inc/inc.useract.php');?>
-            </div>
-            <div id="isi-man-us">
-                <?php include(ROOT_PATH.'/admin/inc/inc.usermanaj.php');?>
+        <div class="col-sm-9 py-3">
+            <div class="card-nb p-3 body-content">
+                <div id="isi-info" class="active">
+                    <?php include(ROOT_PATH.'/admin/inc/inc.infoakun.php');?>
+                </div>
+                <div id="isi-sec">
+                    <?php include(ROOT_PATH.'/admin/inc/inc.secur.php');?>
+                </div>
+                <div id="isi-akt-us">
+                    <?php include(ROOT_PATH.'/admin/inc/inc.useract.php');?>
+                </div>
+                <div id="isi-man-us">
+                    <?php include(ROOT_PATH.'/admin/inc/inc.usermanaj.php');?>
+                </div>
             </div>
         </div>
     </div>
@@ -120,6 +122,14 @@
 </script>
 
 <script>
+    
+    <?php if(isset($_GET['page'])){?>    
+        $(document).ready(function(){
+            <?php if($_GET['page']=='users'){?>
+            adminNav('man-us');
+            <?php }?>
+        })
+    <?php }?>
     $(document).ready(function(){
         useractList()
         usermanajList()

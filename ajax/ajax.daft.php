@@ -28,7 +28,7 @@
                     <p><?php echo $r['pend_pt']?></p>
                     <p><?php echo $r['thn_mulai']?></p>
                     <span style="font-size: 8pt;">
-                    <a target="_blank" href="<?php BASE_URL?>profile/?r=peternak&v=<?php echo $r['id_user']?>"><i>Lihat Profil</i></a>
+                    <a target="_blank" href="<?php echo BASE_URL?>peternak/<?php echo $r['uname']?>"><i>Lihat Profil</i></a>
                     <i style="margin-left:10px;cursor: pointer;color:#077703;" onclick="acc(<?php echo $r['id_user'];?>)"> <i class="fas fa-user-plus" style="color:#077703;"></i> Terima</i>
                     <i style="margin-left:10px;cursor: pointer;color:#d44950;" onclick="rej(<?php echo $r['id_user'];?>)"> <i class="fas fa-times" style="color:#d44950;"></i> Tolak</i>
                     </span>

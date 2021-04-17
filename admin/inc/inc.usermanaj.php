@@ -1,5 +1,10 @@
-<div class="row">
-    <div class="col-sm"><h3>MANAJEMEN USER</h3></div>
+<div class="row mb-3">
+    <div class="col-sm">
+        <h3>MANAJEMEN USER</h3>
+        <a href="<?php echo BASE_URL?>admin/import">
+            <div class="btn-act" style="width: 200px;">Import Data Pendaftaran</div>
+        </a>
+    </div>
     <div class="col-sm">
         <div class="input-group">
             <div id="usermanaj-srch-cncl" class="input-group-prepend" onclick="clearSrchMU()" style="display: none;cursor:pointer;">

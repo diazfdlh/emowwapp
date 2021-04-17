@@ -2,8 +2,30 @@ Options +FollowSymLinks
 RewriteEngine On
 
 RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-f 
 
-RewriteRule ^user/(\d+)$ ./peternak/?un=$1 [NS,L,DPI]
+RewriteRule ^peternak/([^/]*)$ /peternak/?un=$1 [L]
+
+
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f 
+RewriteRule ^koperasi/([^/]*)$ /koperasi/?un=$1 [L]
+
+
+
+
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f 
+RewriteRule ^admin/([^/]*)$ /admin/?page=$1 [L]
+
+
+
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f 
+RewriteRule ^dairyedu/([^/]*)$ /dairyedu/?view=$1 [L]
+
 
 #Copyright Diaz Fadilah

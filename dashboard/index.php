@@ -2,7 +2,7 @@
     require_once('../config.php');
     include(INC_DIR.'header.php');
     if(!isset($_SESSION['user'])){
-        header('location: ' . BASE_URL );
+        header('location: ' . BASE_URL.'login.php' );
     }
     if($_SESSION['user']['role']=='ahli'){
         include(ROOT_PATH.'dashboard/inc/inc.ahli.php');
